@@ -1,11 +1,14 @@
 from get_module import get_info
-import data as d
+try:
+    from .assets.python.data import TIPOS
+except:
+    from assets.python.data import TIPOS
 
 def get_types_info(lista_url):
     return [get_info(url) for url in lista_url]
 
 def nombre_tipos(lista_tipos):
-    resultado = [dict['names'][5]['name'] for dict in lista_tipos]
+    resultado = [dict['name'] for dict in lista_tipos]
     return resultado
 
 def relacion_dano(relacion, lista_tipos):
@@ -14,7 +17,7 @@ def relacion_dano(relacion, lista_tipos):
     """
     numero_tipos = [dict['damage_relations'][relacion] for dict in lista_tipos]
     set_tipos = {tipo['name'] for bloque in numero_tipos for tipo in bloque}
-    return [d.TIPOS[type].capitalize() for type in set_tipos]
+    return set_tipos
 
 
 if __name__ == '__main__':
