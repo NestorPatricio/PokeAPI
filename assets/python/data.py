@@ -39,6 +39,6 @@ TIPOS = {
     'psychic': 'psíquico',
     'ice': 'hielo',
     'dragon': 'dragón',
-    'dark': 'oscuro',
+    'dark': 'siniestro',
     'fairy': 'hada'
 }
