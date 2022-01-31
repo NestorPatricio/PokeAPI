@@ -1,8 +1,8 @@
 from time import sleep
-from poke_validation import validate
-from validate import validador
-from show import show_pics
-from build_pokemon_html import build_html
+from assets.python.poke_validation import validate
+from assets.python.validate import validador
+from assets.python.show import show_pics
+from assets.python.build_pokemon_html import build_html
 import assets.python.data as d
 import os
 import sys

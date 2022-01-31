@@ -1,7 +1,7 @@
 try:
-    from .assets.python import data as d
+    from . import data as d
 except:
-    import assets.python.data as d
+    import data as d
 
 with open("./assets/txt/pokemon_list.txt", "r") as f:
     pokemon_lista = f.readlines()   

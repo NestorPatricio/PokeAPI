@@ -1,5 +1,8 @@
 from random import choices
-from get_module import get_info
+try:
+    from get_module import get_info
+except:
+    from .get_module import get_info
 
 def get_species(id):
     url = f"https://pokeapi.co/api/v2/pokemon-species/{id}/"

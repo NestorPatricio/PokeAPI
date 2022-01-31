@@ -1,8 +1,7 @@
-from get_module import get_info
 try:
-    from .assets.python.data import TIPOS
+    from get_module import get_info
 except:
-    from assets.python.data import TIPOS
+    from .get_module import get_info
 
 def get_types_info(lista_url):
     return [get_info(url) for url in lista_url]
