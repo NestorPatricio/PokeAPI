@@ -16,6 +16,6 @@ def show_pics(html, nombre):
 
 if __name__ == '__main__':
     from build_pokemon_html import build_html
-    nombre = "charizard"
+    nombre = "mew"
     html = build_html(nombre)
     show_pics(html, nombre)

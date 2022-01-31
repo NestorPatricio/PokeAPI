@@ -27,9 +27,10 @@ def descripciones(dict_species):
 
 if __name__ == '__main__':
     from get_base_info import poke_num, get_base_pokemon
-    nombre = 'arceus'
+    nombre = 'pichu'
     dict_base_pokemon = get_base_pokemon(nombre)
-    dict_species = poke_num(dict_base_pokemon)
+    id = poke_num(dict_base_pokemon)
+    dict_species = get_species(id)
     
     print(f"Datos de {nombre.capitalize()}:")
     print(f"La etapa previa del pokémon es {preevolucion(dict_species)}.")
@@ -37,4 +38,5 @@ if __name__ == '__main__':
     print(f"¿Es Legendario este pokémon? {indicadores('legendary', dict_species)}.")
     print(f"¿Es Mítico este pokémon? {indicadores('mythical', dict_species)}.")
     print(descripciones(dict_species))
-    
+
+    print(indicadores('baby', dict_species), type(indicadores('baby', dict_species)))
