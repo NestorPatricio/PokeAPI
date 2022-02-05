@@ -2,7 +2,7 @@
 😲A web app with information about Pokémon, as a Pokédex.
 
 💻El repositorio corresponde a un desafío evaluado del módulo **Fundamentos de programación en Python**, parte del bootcamp **Desarrollo de aplicaciones *full stack* Python trainee 2021** de **[Edutecno](https://edutecno.cl/)**. La idea es practicar conceptos de *funciones* y de *modularización* del código.
-
+#
 ⌨Las instrucciones generales son las siguientes:
 - **El Pokedex** era el dispositivo que todo maestro pokemon llevaba consigo para consultar acerca de los pokemones que encontraban. Esta Pokédex entrega mucha información útil acerca del Pokemón.
 - Afortunadamente, los fanáticos del mundo han creado la [PokeAPI](https://pokeapi.co): un repositorio de toda la información disponible del mundo Pokemon. Con esta información crearemos nuestra propia versión de la Pokédex.
@@ -32,7 +32,8 @@
   + Las fortalezas y resistencias pueden encontrarse en `damage_relations`. Usar los ejemplos para referirse a los campos correctos.
   + Los resultados del Pokedex deben mostrarse directamente en el Pokedex.
   + Se considerarán sólo 898 pokemones. Megaevoluciones y Gigamax no serán parte del problema.
-
+#
+La investigación de la API se realizó con la aplicación de escritorio **[Postman](https://www.postman.com/)** v.9.13.0.\
 El proyecto final se encuentra en la siguiente página de **[GitHub](https://github.com/NestorPatricio/PokeAPI)**.
 
 Desde el ocio, **[Néstor Patricio Rojas Ríos](https://github.com/NestorPatricio)**
