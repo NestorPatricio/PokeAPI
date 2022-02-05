@@ -1,3 +1,5 @@
+# Objetos tipo string que se usan en distintos procesos del código.
+
 validacion_pokemon = "La opción ingresada no es válida. Por favor, escriba el nombre correctamente: "
 
 MENU = """¡Bienvenido a PokéAPI! 

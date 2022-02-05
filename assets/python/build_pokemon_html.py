@@ -1,71 +1,90 @@
 from string import Template
+# Dada la organización en diferentes carpetas, las siguientes importaciones presentan 2 alternativas.
+# La primera (en "try"), una importación absoluta, permite correr el código desde este script.
+# La segunda forma (en "except"), una importación relativa, permite que el código corra desde un script que se encuentra en otra carpeta.
 try:
-    import get_base_info
+    from get_base_info import get_base_pokemon, poke_name, poke_num, poke_weight, poke_height, poke_type, poke_stats, poke_photo
 except:
-    from . import get_base_info
+    from .get_base_info import get_base_pokemon, poke_name, poke_num, poke_weight, poke_height, poke_type, poke_stats, poke_photo
 try:
-    import get_types
+    from get_types import get_types_info, nombre_tipos, relacion_dano
 except:
-    from . import get_types
+    from .get_types import get_types_info, nombre_tipos, relacion_dano
 try:
-    import get_species_info
+    from get_species_info import get_species, indicadores, preevolucion, descripciones
 except:
-    from . import get_species_info
+    from .get_species_info import get_species, indicadores, preevolucion, descripciones
 try:
-    import data as d
+    from data import TIPOS
 except:
-    from . import data as d
+    from .data import TIPOS
 
+# La función "open(x, 'r', encoding = 'utf-8)" transforma el archivo x en un objeto string.
+# El valor "encoding = 'utf-8'" permite que se entiendan caracteres especiales.
 with open('./assets/html/input.html', 'r', encoding = 'utf-8') as archivo:
     html = archivo.read()
 
-def tipos(datos):
+
+def tipos(datos: list):
+    """
+    datos: estructura de datos que contiene el nombre, en inglés, con los tipos del pokémon.\n
+    Se genera una etiqueta de HTML <span>.
+    Dentro del atributo "class" se ingresa el tipo del pokémon en inglés, el cual está asociado a un estilo en CSS.
+    Dentro de la etiqueta se produce la traducción al español, con la primera letra en mayúscula.\n
+    Retorna un objeto string con todas las etiquetas <span> construidas. 
+    """
     conjunto = ""
     for tipo in datos:
-        conjunto += f'<span class="label {tipo}">{d.TIPOS[tipo].capitalize()}</span>'
+        conjunto += f'<span class="label {tipo}">{TIPOS[tipo].capitalize()}</span>'
     return conjunto
 
-def indicador(valor):
-    """ valor: 'Legendario', 'Mítico', Bebé'
+def indicador(valor: str):
+    """
+    valor: 'Legendario', 'Mítico', Bebé'.\n
+    Retorna una etiqueta <span> con el valor del parámetro "valor".
     """
     return f'<span class="label other">{valor}</span>'
 
-def build_html(name):
+def build_html(name: str):
+    """
+    name: nombre de un pokémon. Objeto string que sirve como plantilla.\n
+    Retorna un string con el Template completado.
+    """
     entrada = Template(html)
-    dict_base_pokemon = get_base_info.get_base_pokemon(name)
-    lista_tipos = get_types.get_types_info(get_base_info.poke_type(dict_base_pokemon))
-    dict_species = get_species_info.get_species(get_base_info.poke_num(dict_base_pokemon))
+    dict_base_pokemon = get_base_pokemon(name)
+    lista_tipos = get_types_info(poke_type(dict_base_pokemon))
+    dict_species = get_species(poke_num(dict_base_pokemon))
 
-    preevolucion = f"<h4>Etapa previa: {get_species_info.preevolucion(dict_species)}.</h4>"
+    preevolution = f"<h4>Etapa previa: {preevolucion(dict_species)}.</h4>"
     
-    legendario = get_species_info.indicadores('legendary', dict_species)
-    mitico = get_species_info.indicadores('mythical', dict_species)
-    bebe = get_species_info.indicadores('baby', dict_species)
+    legendario = indicadores('legendary', dict_species)
+    mitico = indicadores('mythical', dict_species)
+    bebe = indicadores('baby', dict_species)
 
     salida = entrada.substitute(
-        Nombre = get_base_info.poke_name(dict_base_pokemon),
-        Numero = get_base_info.poke_num(dict_base_pokemon),
-        Preevolucion = preevolucion if get_species_info.preevolucion(dict_species) != None else '',
-        Peso = get_base_info.poke_weight(dict_base_pokemon),
-        Talla = get_base_info.poke_height(dict_base_pokemon),
-        Foto = get_base_info.poke_photo(dict_base_pokemon),
-        HP = get_base_info.poke_stats(0, dict_base_pokemon),
-        Ataque = get_base_info.poke_stats(1, dict_base_pokemon),
-        Defensa = get_base_info.poke_stats(2, dict_base_pokemon),
-        AtaqSp = get_base_info.poke_stats(3, dict_base_pokemon),
-        DefenSp = get_base_info.poke_stats(4, dict_base_pokemon),
-        Velocidad = get_base_info.poke_stats(5, dict_base_pokemon),
-        Tipos = tipos(get_types.nombre_tipos(lista_tipos)),
+        Nombre = poke_name(dict_base_pokemon),
+        Numero = poke_num(dict_base_pokemon),
+        Preevolucion = preevolution if preevolucion(dict_species) != None else '',
+        Peso = poke_weight(dict_base_pokemon),
+        Talla = poke_height(dict_base_pokemon),
+        Foto = poke_photo(dict_base_pokemon),
+        HP = poke_stats(0, dict_base_pokemon),
+        Ataque = poke_stats(1, dict_base_pokemon),
+        Defensa = poke_stats(2, dict_base_pokemon),
+        AtaqSp = poke_stats(3, dict_base_pokemon),
+        DefenSp = poke_stats(4, dict_base_pokemon),
+        Velocidad = poke_stats(5, dict_base_pokemon),
+        Tipos = tipos(nombre_tipos(lista_tipos)),
         Legendario = indicador('Legendario') if legendario == True else '',
         Mitico = indicador('Mítico') if mitico == True else '', 
         Bebe = indicador('Bebé') if bebe == True else '',
-        Descripcion = get_species_info.descripciones(dict_species),
-        Efectivo = tipos(get_types.relacion_dano('double_damage_to', lista_tipos)),
-        Debil = tipos(get_types.relacion_dano('double_damage_from', lista_tipos)),
-        Resistente = tipos(get_types.relacion_dano('half_damage_from', lista_tipos)),
-        PocoEficaz = tipos(get_types.relacion_dano('half_damage_to', lista_tipos)),
-        Inmune = tipos(get_types.relacion_dano('no_damage_from', lista_tipos)),
-        Ineficaz = tipos(get_types.relacion_dano('no_damage_to', lista_tipos))
+        Descripcion = descripciones(dict_species),
+        Efectivo = tipos(relacion_dano('double_damage_to', lista_tipos)),
+        Debil = tipos(relacion_dano('double_damage_from', lista_tipos)),
+        Resistente = tipos(relacion_dano('half_damage_from', lista_tipos)),
+        PocoEficaz = tipos(relacion_dano('half_damage_to', lista_tipos)),
+        Inmune = tipos(relacion_dano('no_damage_from', lista_tipos)),
+        Ineficaz = tipos(relacion_dano('no_damage_to', lista_tipos))
     )
     resultado = salida
     return resultado
